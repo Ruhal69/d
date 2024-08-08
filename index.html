@@ -16,11 +16,14 @@
             color: #ffffff;
             font-family: Arial, sans-serif;
             text-align: center;
+            background: linear-gradient(180deg, #1e1e1e, #121212);
         }
         h1 {
             margin-bottom: 20px;
             font-size: 2rem;
-            color: #4caf50;
+            color: #00bfff; /* Neon blue color */
+            text-shadow: 0 0 10px #00bfff; /* Glow effect */
+            animation: pulse 2s infinite; /* Pulsing animation */
         }
         .container {
             display: grid;
@@ -35,12 +38,47 @@
             border: 1px solid #555555;
             cursor: pointer;
             transition: background-color 0.3s;
+            box-shadow: 0 0 5px #000; /* Box shadow */
         }
         .box.checked {
-            background-color: #4caf50;
+            background-color: #00bfff; /* Neon blue color */
+            box-shadow: 0 0 10px #00bfff; /* Glow effect */
         }
         .box:hover {
             background-color: #444444;
+        }
+        .box.checked:hover {
+            background-color: #00bfff; /* Override hover effect for checked boxes */
+        }
+        .quote {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 1.5rem;
+            color: #00bfff;
+            text-shadow: 0 0 10px #00bfff;
+            animation: roam 10s infinite linear;
+        }
+
+        /* Animation keyframes */
+        @keyframes pulse {
+            0% {
+                text-shadow: 0 0 10px #00bfff;
+            }
+            50% {
+                text-shadow: 0 0 20px #00bfff;
+            }
+            100% {
+                text-shadow: 0 0 10px #00bfff;
+            }
+        }
+        @keyframes roam {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(100vw);
+            }
         }
     </style>
 </head>
@@ -49,9 +87,11 @@
     <div class="container" id="grid-container">
         <!-- Boxes will be generated here by JavaScript -->
     </div>
+    <div class="quote" id="quote"></div>
     <script>
         const totalBoxes = 144;
         const container = document.getElementById('grid-container');
+        const quoteElement = document.getElementById('quote');
 
         // Generate boxes and load saved state
         function generateBoxes() {
@@ -78,6 +118,30 @@
             localStorage.setItem(`box-${index}`, isChecked ? 'checked' : '');
         }
 
+        // Generate motivational quotes
+        const quotes = [
+            "You got this!",
+            "Keep going, you're doing great!",
+            "Don't give up, you're almost there!",
+            "Stay focused, stay motivated!",
+            "You're stronger than you think!",
+            "Believe in yourself, you can do it!",
+            "Keep pushing forward, you're making progress!",
+            "Don't quit, you're ALMOST there!",
+            "You're doing better than you think!",
+            "Stay positive & keep working",
+        ];
+
+        function generateQuote() {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            quoteElement.textContent = randomQuote;
+            setTimeout(generateQuote, 5000); // Generate a new quote every 5 seconds
+        }
+
+        // Initialize the quote generator
+        generateQuote();
+
+        // Generate the boxes
         generateBoxes();
     </script>
 </body>
